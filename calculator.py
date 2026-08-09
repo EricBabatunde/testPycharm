@@ -4,6 +4,12 @@ from pprint import pprint
 run = True
 previous = 0
 
+print("===================================")
+print("            SimpleCalc")
+print("===================================\n")
+
+print("Type Quit to exit!")
+
 def perform_maths():
     global run
     global previous
