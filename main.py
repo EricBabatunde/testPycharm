@@ -1,21 +1,11 @@
 import random
+from classes.enemy import Enemy
 
 
-playerhp = 275
-enemyatkl = 25
-enemyatkh = 50
 
-while playerhp > 0:
-    damage = random.randrange(enemyatkl, enemyatkh)
-    playerhp -= damage
+enemy1 = Enemy(56, 34)
+print("Enemy1 HP is", enemy1.getHP(), "and MP is", enemy1.getMP())
 
-    if playerhp <= 30:
-        playerhp = 30
-
-    print("Enemy attacks with", damage, "points and new player HP is", playerhp, ".")
-
-    if playerhp > 30:
-        continue
-
-    print("You are nearly dead.")
-    break
+enemy2hp = Enemy("23", 70).getHP()
+enemy2mp = Enemy(23, 70).getMP()
+print("Enemy2 HP is", enemy2hp, "and MP is", enemy2mp)
