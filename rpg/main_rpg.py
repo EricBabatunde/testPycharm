@@ -1,5 +1,6 @@
 from rpg.classes.game_cl import Person, bcolors
 from rpg.classes.magic import Spell
+from rpg.classes.inventory import Item
 
 
 # Black magic
@@ -13,10 +14,20 @@ Quake = Spell("Quake", 10, 90, "mage")
 Cure = Spell("Cure", 15, 100, "white")
 Cura = Spell("Cura", 20, 200, "white")
 
+# sum items
+Potion = Item("Potion", "potion", "Heals 50 HP", 50)
+HiPotion = Item("Hi-Potion", "potion", "Heals 100 HP", 100)
+SuperPotion = Item("Super Potion", "potion", "Heals 500 HP", 500)
+Elixir = Item("Elixir", "elixir", "Fully restores HP/MP of one party member", 1100)
+MegaElixir = Item("Mega Elixir", "elixir", "Fully restores party's HP/MP", 9999)
 
-player = Person(460, 65, 60, 34, [Fire, Thunder, Blizzard, Meteor, Quake, Cure, Cura])
+Grenade = Item("Grenade", "attack", "Deals 500HP damage", 500)
 
-enemy1 = Person(1200, 65, 45, 25, [])
+player_spells = [Fire, Thunder, Blizzard, Meteor, Quake, Cure, Cura]
+player_items = [Potion, HiPotion, SuperPotion, Elixir, MegaElixir]
+player = Person(460, 65, 60, 34, player_spells, player_items)
+
+enemy1 = Person(1200, 65, 45, 25, [], [])
 
 running = True
 i = 0
@@ -38,6 +49,9 @@ while running:
         player.choose_spell()
         spell_choice = int(input("Choose a spell: ")) - 1
 
+        if spell_choice == -1:
+            continue
+
         chosen_spell = player.magic[spell_choice]
         magic_dmg = chosen_spell.generate_dmg()
         spell_name = chosen_spell.name
@@ -58,6 +72,19 @@ while running:
         elif chosen_spell.type == "black":
             enemy1.take_damage(magic_dmg)
             print(bcolors.OKBLUE + "\nPlayer used", spell_name, "to deal", magic_dmg, "points of damage!!" + bcolors.ENDC)
+
+    elif choice_index == 2:
+        player.choose_item()
+        item_choice_index = int(input("Choose an item: ")) - 1
+
+        if item_choice_index == -1:
+            continue
+
+        item_choice = player.items[item_choice_index]
+        if item_choice.type == "potion":
+            player.heal(item_choice.prop)
+            print(bcolors.OKGREEN + "\nPlayer healed with", item_choice.name, "for", item_choice.prop, "points of HP!!" + bcolors.ENDC)
+
 
     enemy_dmg = enemy1.generate_attackdmg()
     player.take_damage(enemy_dmg)
